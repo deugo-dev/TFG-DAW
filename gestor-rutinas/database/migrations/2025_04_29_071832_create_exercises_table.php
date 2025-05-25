@@ -20,7 +20,7 @@ return new class extends Migration
             $table->enum('category',['fuerza','estiramiento','cardio']);
             $table->integer('difficulty_level');
             $table->boolean('is_template')->default(false);
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
         });
     }
 

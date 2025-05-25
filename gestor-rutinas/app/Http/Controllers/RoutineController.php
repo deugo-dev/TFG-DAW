@@ -2,64 +2,77 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Routine;
 
 class RoutineController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $routines = Routine::where('user_id', auth()->id())->get();
+        return view('routines.index', compact('routines'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function new()
     {
-        //
+        return view('routines.create'); 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+    
+        $validatedData['is_template'] = $request->has('is_template'); // checkbox
+    
+        // Aquí asignamos el id del usuario autenticado
+        $validatedData['user_id'] = auth()->id();
+    
+        Routine::create($validatedData);
+    
+        return redirect()->route('dashboard')->with('success', 'Rutina creada correctamente');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+
+
+    public function edit($id)
     {
-        //
+        $routine = Routine::findOrFail($id);
+        return view('routines.edit', compact('routine'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $routine = Routine::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'is_template' => 'nullable|boolean',
+        ]);
+
+        $routine->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'is_template' => $request->is_template ?? false,
+        ]);
+
+        return back()->with('success', 'Rutina actualizada correctamente.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function delete($id)
     {
-        //
+        $routine = Routine::findOrFail($id);
+        $routine->delete();
+
+        return back()->with('success', 'Rutina eliminada correctamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function show($id)
     {
-        //
+        $routine = Routine::findOrFail($id);
+        return view('routines.show', compact('routine'));
     }
 }
