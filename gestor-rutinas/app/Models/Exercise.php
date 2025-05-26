@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Exercise extends Model
@@ -22,10 +23,15 @@ class Exercise extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function routines(): BelongsToMany
+    public function routines()
     {
-        return $this->belongsToMany(Routine::class, 'routine_exercise')
-                    ->withPivot(['exercise_order', 'reps', 'duration', 'rest_time']);
+        return $this->belongsToMany(Routine::class, 'routine_exercise')  
+                    ->withPivot('exercise_order', 'reps', 'duration', 'rest_time')
+                    ->withTimestamps();
+    }
+
+    public function routineExercises(): HasMany
+    {
+        return $this->hasMany(RoutineExercise::class);
     }
 }
-
