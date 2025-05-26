@@ -48,11 +48,14 @@
                         <textarea class="form-control" name="description"></textarea>
                     </div>
 
-                    //esto deberia ser solo si es admin
+                    
+                    @if(auth()->user()->is_admin)
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="is_template" value="1" id="is_template">
                         <label class="form-check-label" for="is_template">Es plantilla</label>
                     </div>
+                    @endif
+
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Guardar</button>

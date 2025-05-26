@@ -24,6 +24,9 @@
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             {{ Auth::user()->name }}
+                            @if (Auth::user()->is_admin)
+                                <span class="badge bg-danger ms-2">Admin</span>
+                            @endif
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li>
@@ -50,6 +53,7 @@
                     @endif
                 @endguest
             </ul>
+
         </div>
     </div>
 </nav>
