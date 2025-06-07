@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('video_url')->nullable();
-            $table->enum('category',['fuerza','estiramiento','cardio']);
-            $table->integer('difficulty_level');
+            $table->enum('category', ['fuerza', 'estiramiento', 'cardio', 'flexibilidad', 'movilidad', 'core', 'calistenia']);
+            $table->enum('difficulty_level', ['fácil', 'medio', 'difícil'])->default('fácil');
             $table->boolean('is_template')->default(false);
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
         });

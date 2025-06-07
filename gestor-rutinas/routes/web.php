@@ -36,10 +36,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // rutas para editar o borrar ejercicios individuales
-    
+
     Route::get('/exercises/{exercise}/edit', [ExerciseController::class, 'edit'])->name('exercises.edit');
     Route::put('/exercises/{exercise}', [ExerciseController::class, 'update'])->name('exercises.update');
     Route::delete('/exercises/{exercise}', [ExerciseController::class, 'delete'])->name('exercises.delete');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

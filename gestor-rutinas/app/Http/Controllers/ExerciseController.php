@@ -4,17 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Exercise;
-use App\Models\RoutineExercise;
 
 class ExerciseController extends Controller
 {
-    
-    public function edit($id)
-    {
-        $exercise = Exercise::findOrFail($id);
-        return view('exercises.edit', compact('exercise'));
-    }
-
     public function update(Request $request, $id)
     {
         $exercise = Exercise::findOrFail($id);
@@ -29,7 +21,8 @@ class ExerciseController extends Controller
 
         $exercise->update($request->only('title', 'description', 'video_url', 'category', 'difficulty_level'));
 
-        return back()->with('success', 'Ejercicio actualizado correctamente.');
+        return redirect()->route('routines.show', $request->routine_id)
+            ->with('success', 'Ejercicio actualizado correctamente.');
     }
 
     public function delete($id)
@@ -39,5 +32,4 @@ class ExerciseController extends Controller
 
         return back()->with('success', 'Ejercicio eliminado correctamente.');
     }
-
 }

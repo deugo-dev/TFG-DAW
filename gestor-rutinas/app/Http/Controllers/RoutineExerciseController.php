@@ -15,7 +15,7 @@ class RoutineExerciseController extends Controller
             'description' => 'nullable|string',
             'video_url' => 'nullable|url',
             'category' => 'nullable|string|max:255',
-            'difficulty_level' => 'required|string|in:easy,medium,hard',
+            'difficulty_level' => 'required|string|in:fácil,medio,difícil',
             'exercise_order' => 'nullable|integer|min:1',
             'reps' => 'nullable|integer|min:0',
             'duration' => 'nullable|integer|min:0',
@@ -27,7 +27,7 @@ class RoutineExerciseController extends Controller
             'description' => $data['description'] ?? null,
             'video_url' => $data['video_url'] ?? null,
             'category' => $data['category'] ?? null,
-            'difficulty_level' => $data['difficulty_level'],
+            'difficulty_level' => $data['difficulty_level'] ?? null,
             'user_id' => auth()->id(),
         ]);
 
