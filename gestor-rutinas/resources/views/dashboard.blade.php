@@ -20,14 +20,14 @@
         <div class="card-body">
             <h5 class="card-title">{{ $routine->name }}</h5>
             <p class="card-text">{{ $routine->description }}</p>
-            <a href="{{ route('routines.show', $routine->id) }}" class="btn btn-primary btn-sm">Ver</a>
-            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editRoutineModal{{ $routine->id }}">
+            <a href="{{ route('routines.show', $routine->id) }}" class="btn btn-outline-primary btn-sm">Ver</a>
+            <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#editRoutineModal{{ $routine->id }}">
                 Editar
             </button>
             <form action="{{ route('routines.delete', $routine->id) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta rutina?');">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                <button type="submit" class="btn btn-outline-danger btn-sm">Eliminar</button>
             </form>
 
         </div>

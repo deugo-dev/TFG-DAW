@@ -15,7 +15,7 @@ class RoutineController extends Controller
 
     public function new()
     {
-        return view('routines.create'); 
+        return view('routines.create');
     }
 
     public function store(Request $request)
@@ -24,14 +24,13 @@ class RoutineController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
-    
-        $validatedData['is_template'] = $request->has('is_template'); // checkbox
-    
-        // Aquí asignamos el id del usuario autenticado
+
+        $validatedData['is_template'] = $request->has('is_template');
+
         $validatedData['user_id'] = auth()->id();
-    
+
         Routine::create($validatedData);
-    
+
         return redirect()->route('dashboard')->with('success', 'Rutina creada correctamente');
     }
 
@@ -70,9 +69,14 @@ class RoutineController extends Controller
         return back()->with('success', 'Rutina eliminada correctamente.');
     }
 
-    public function show($id)
+    public function show(Routine $routine)
     {
-        $routine = Routine::findOrFail($id);
-        return view('routines.show', compact('routine'));
+        $user = auth()->user();
+
+        $availableExercises = $user->exercises()
+            ->whereDoesntHave('routines', fn($q) => $q->where('routine_id', $routine->id))
+            ->get();
+
+        return view('routines.show', compact('routine', 'availableExercises'));
     }
 }

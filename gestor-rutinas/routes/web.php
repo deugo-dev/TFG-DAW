@@ -19,7 +19,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // rutinas
+    // Rutas de rutinas
     Route::get('/routines', [RoutineController::class, 'index'])->name('routines.index');
     Route::get('/routines/new', [RoutineController::class, 'new'])->name('routines.new');
     Route::post('/routines/store', [RoutineController::class, 'store'])->name('routines.store');
@@ -28,18 +28,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/routines/{routine}', [RoutineController::class, 'update'])->name('routines.update');
     Route::delete('/routines/{routine}', [RoutineController::class, 'delete'])->name('routines.delete');
 
-    // asociar ejercicios a rutinas 
-    Route::prefix('routines/{routine}')->group(function () {
-        Route::post('/exercises/store', [RoutineExerciseController::class, 'store'])->name('routine_exercises.store');
-        Route::put('/exercises/{exercise}', [RoutineExerciseController::class, 'update'])->name('routine_exercises.update');
-        Route::delete('/exercises/{exercise}', [RoutineExerciseController::class, 'delete'])->name('routine_exercises.delete');
+    // Asociar o desasociar ejercicios a una rutina
+    Route::prefix('/routines/{routine}/exercises')->group(function () {
+        Route::post('/', [RoutineExerciseController::class, 'attach'])->name('routine_exercises.attach');
+        Route::put('/{exercise}', [RoutineExerciseController::class, 'update'])->name('routine_exercises.update');
+        Route::delete('/{exercise}', [RoutineExerciseController::class, 'delete'])->name('routine_exercises.delete');
     });
+    Route::post('/routines/{routine}/exercises/reorder', [RoutineExerciseController::class, 'reorder'])
+        ->name('routine_exercises.reorder');
 
-    // rutas para editar o borrar ejercicios individuales
 
-    Route::get('/exercises/{exercise}/edit', [ExerciseController::class, 'edit'])->name('exercises.edit');
+
+    // Rutas de ejercicios
+    Route::post('/exercises/store', [ExerciseController::class, 'store'])->name('exercises.store');
     Route::put('/exercises/{exercise}', [ExerciseController::class, 'update'])->name('exercises.update');
     Route::delete('/exercises/{exercise}', [ExerciseController::class, 'delete'])->name('exercises.delete');
+    Route::get('/mis-ejercicios', [ExerciseController::class, 'showAll'])->name('exercises.showAll');
 });
 
 require __DIR__ . '/auth.php';

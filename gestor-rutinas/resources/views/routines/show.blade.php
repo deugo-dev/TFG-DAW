@@ -1,137 +1,179 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-  <h1>Rutina: {{ $routine->name ?? 'Sin nombre' }}</h1>
-
-  @if(session('success'))
-  <div class="alert alert-success">{{ session('success') }}</div>
-  @endif
-
-  <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addExerciseModal">
-    Añadir ejercicio nuevo
-  </button>
-
-  <div class="modal fade" id="addExerciseModal" tabindex="-1" aria-labelledby="addExerciseModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <form action="{{ route('routine_exercises.store', $routine->id) }}" method="POST">
-          @csrf
-          <div class="modal-header">
-            <h5 class="modal-title" id="addExerciseModalLabel">Añadir ejercicio</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-          </div>
-          <div class="modal-body">
-
-            <div class="mb-3">
-              <label for="title" class="form-label">Título *</label>
-              <input type="text" class="form-control" id="title" name="title" required maxlength="255" value="{{ old('title') }}">
-              @error('title')
-              <small class="text-danger">{{ $message }}</small>
-              @enderror
-            </div>
-
-            <div class="mb-3">
-              <label for="description" class="form-label">Descripción</label>
-              <textarea class="form-control" id="description" name="description">{{ old('description') }}</textarea>
-            </div>
-
-            <div class="mb-3">
-              <label for="video_url" class="form-label">URL Video</label>
-              <input type="url" class="form-control" id="video_url" name="video_url" value="{{ old('video_url') }}">
-              @error('video_url')
-              <small class="text-danger">{{ $message }}</small>
-              @enderror
-            </div>
-
-            <div class="mb-3">
-              <label for="category" class="form-label">Categoría</label>
-              <select class="form-select" id="category" name="category" required>
-                <option value="" disabled {{ old('category') ? '' : 'selected' }}>Selecciona categoría</option>
-                <option value="cardio" {{ old('category') == 'cardio' ? 'selected' : '' }}>Cardio</option>
-                <option value="fuerza" {{ old('category') == 'fuerza' ? 'selected' : '' }}>Fuerza</option>
-                <option value="estiramiento" {{ old('category') == 'estiramientos' ? 'selected' : '' }}>Estiramientos</option>
-                <option value="flexibilidad" {{ old('category') == 'flexibilidad' ? 'selected' : '' }}>Flexibilidad</option>
-                <option value="movilidad" {{ old('category') == 'movilidad' ? 'selected' : '' }}>Movilidad</option>
-                <option value="core" {{ old('category') == 'core' ? 'selected' : '' }}>Core</option>
-                <option value="calistenia" {{ old('category') == 'calistenia' ? 'selected' : '' }}>Calistenia</option>
-              </select>
-
-            </div>
-
-            <div class="mb-3">
-              <label for="difficulty_level" class="form-label">Nivel de dificultad *</label>
-              <select class="form-select" id="difficulty_level" name="difficulty_level" required>
-                <option value="fácil" {{ old('difficulty_level') == 'fácil' ? 'selected' : '' }}>Fácil</option>
-                <option value="medio" {{ old('difficulty_level') == 'medio' ? 'selected' : '' }}>Medio</option>
-                <option value="difícil" {{ old('difficulty_level') == 'difícil' ? 'selected' : '' }}>Difícil</option>
-              </select>
-              @error('difficulty_level')
-              <small class="text-danger">{{ $message }}</small>
-              @enderror
-            </div>
-
-            <div class="row">
-              <div class="col-md-3 mb-3">
-                <label for="exercise_order" class="form-label">Orden</label>
-                <input type="number" class="form-control" id="exercise_order" name="exercise_order" min="1" value="{{ old('exercise_order', $routine->exercises->count() + 1) }}">
-              </div>
-              <div class="col-md-3 mb-3">
-                <label for="reps" class="form-label">Repeticiones</label>
-                <input type="number" class="form-control" id="reps" name="reps" min="0" value="{{ old('reps') }}">
-              </div>
-              <div class="col-md-3 mb-3">
-                <label for="duration" class="form-label">Duración (seg)</label>
-                <input type="number" class="form-control" id="duration" name="duration" min="0" value="{{ old('duration') }}">
-              </div>
-              <div class="col-md-3 mb-3">
-                <label for="rest_time" class="form-label">Descanso (seg)</label>
-                <input type="number" class="form-control" id="rest_time" name="rest_time" min="0" value="{{ old('rest_time') }}">
-              </div>
-            </div>
-
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Guardar ejercicio</button>
-          </div>
-        </form>
+<div class="container py-4">
+  <!-- Header Section -->
+  <div class="row mb-4">
+    <div class="col">
+      <div class="d-flex align-items-center mb-3">
+        <div class="bg-primary rounded-circle p-3 me-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+          <i class="fas fa-dumbbell text-white fs-4"></i>
+        </div>
+        <div>
+          <h1 class="mb-1 text-dark fw-bold">{{ $routine->name }}</h1>
+          <p class="text-muted mb-0">{{ $routine->exercises->count() }} ejercicios en la rutina</p>
+        </div>
       </div>
     </div>
   </div>
 
-  <h2>Ejercicios de esta rutina</h2>
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-    @foreach($routine->exercises as $exercise)
-    <div class="col">
-      <div class="card h-100 shadow-sm">
-        @if($exercise->video_url)
-        <iframe class="card-img-top" src="{{ $exercise->video_url }}" style="aspect-ratio:16/9;" allowfullscreen></iframe>
-        @endif
-        <div class="card-body">
-          <h5 class="card-title">{{ $exercise->title }}</h5>
-          <p class="card-text">{{ $exercise->description ?? 'Sin descripción' }}</p>
-          <ul class="list-group list-group-flush mb-3">
-            <li class="list-group-item"><strong>Orden:</strong> {{ $exercise->pivot->exercise_order }}</li>
-            <li class="list-group-item"><strong>Repeticiones:</strong> {{ $exercise->pivot->reps ?? '-' }}</li>
-            <li class="list-group-item"><strong>Duración (seg):</strong> {{ $exercise->pivot->duration ?? '-' }}</li>
-            <li class="list-group-item"><strong>Descanso (seg):</strong> {{ $exercise->pivot->rest_time ?? '-' }}</li>
-            <li class="list-group-item"><strong>Dificultad:</strong> {{ $exercise->difficulty_level ? ucfirst(strtolower($exercise->difficulty_level)) : '-' }}</li>
-            <li class="list-group-item"><strong>Categoría:</strong> {{ $exercise->category ? ucfirst(strtolower($exercise->category)) : '-' }}</li>
-          </ul>
-
-          <div class="d-flex justify-content-end gap-2">
-            <a href="#" class="btn btn-sm btn-primary">Editar</a>
-            <form action="{{ route('routine_exercises.delete', ['routine' => $routine->id, 'exercise' => $exercise->id]) }}" method="POST" style="display:inline;">
-              @csrf
-              @method('DELETE')
-              <button class="btn btn-sm btn-danger" type="submit" onclick="return confirm('¿Seguro que quieres eliminar este ejercicio?')">Eliminar</button>
-            </form>
+  <!-- Exercise Grid -->
+  <div id="exercise-list" class="row g-4">
+    @foreach($routine->exercises->sortBy('pivot.exercise_order') as $exercise)
+    <div class="col-lg-6 col-xl-4" data-id="{{ $exercise->id }}">
+      <div class="card h-100 shadow-sm border-0" style="transition: transform 0.2s; border-radius: 12px;">
+        <!-- Video Section -->
+        <div class="position-relative" style="border-radius: 12px 12px 0 0; overflow: hidden;">
+          <div class="ratio ratio-16x9">
+            @php
+            $embedUrl = $exercise->getEmbedUrl();
+            @endphp
+            @if($embedUrl)
+            <iframe class="card-img-top" src="{{ $embedUrl }}" frameborder="0" allowfullscreen style="border-radius: 12px 12px 0 0;"></iframe>
+            @else
+            <div class="d-flex justify-content-center align-items-center bg-dark text-white">
+              <div class="text-center">
+                <i class="fas fa-play-circle fs-1 mb-2 opacity-50"></i>
+                <p class="mb-0 small">Video no disponible</p>
+              </div>
+            </div>
+            @endif
           </div>
+          <!-- Exercise Order Badge -->
+          <div class="position-absolute top-0 start-0 m-2">
+            <span class="badge bg-primary fs-6">#{{ $loop->iteration }}</span>
+          </div>
+        </div>
+
+        <!-- Card Body -->
+        <div class="card-body p-4">
+          <h5 class="card-title fw-bold mb-3 text-dark">{{ $exercise->title }}</h5>
+
+          <!-- Update Form -->
+          <form action="{{ route('routine_exercises.update', [$routine, $exercise]) }}" method="POST" class="mb-3">
+            @csrf
+            @method('PUT')
+            <div class="row g-2 mb-3">
+              <div class="col-4">
+                <label class="form-label small fw-medium text-muted">REPS</label>
+                <input type="number" name="reps" value="{{ $exercise->pivot->reps }}"
+                  class="form-control form-control-sm border-0 bg-light"
+                  style="border-radius: 8px;">
+              </div>
+              <div class="col-4">
+                <label class="form-label small fw-medium text-muted">DURACIÓN</label>
+                <input type="number" name="duration" value="{{ $exercise->pivot->duration }}"
+                  class="form-control form-control-sm border-0 bg-light"
+                  style="border-radius: 8px;">
+              </div>
+              <div class="col-4">
+                <label class="form-label small fw-medium text-muted">DESCANSO</label>
+                <input type="number" name="rest_time" value="{{ $exercise->pivot->rest_time }}"
+                  class="form-control form-control-sm border-0 bg-light"
+                  style="border-radius: 8px;">
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary btn-sm flex-fill" style="border-radius: 8px;">
+                <i class="fas fa-save me-1"></i> Actualizar
+              </button>
+            </div>
+          </form>
+
+          <!-- Delete Form -->
+          <form action="{{ route('routine_exercises.delete', [$routine, $exercise]) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-outline-danger btn-sm w-100"
+              style="border-radius: 8px;"
+              onclick="return confirm('¿Estás seguro de eliminar este ejercicio?')">
+              <i class="fas fa-trash me-1"></i> Eliminar de la rutina
+            </button>
+          </form>
         </div>
       </div>
     </div>
     @endforeach
+
+    <!-- Add New Exercise Card -->
+    <div class="col-lg-6 col-xl-4">
+      <div class="card h-100 border-0 shadow-sm" style="border-radius: 12px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+        <div class="card-body d-flex flex-column justify-content-center p-4">
+          <div class="text-center mb-4">
+            <div class="bg-success rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center"
+              style="width: 80px; height: 80px;">
+              <i class="fas fa-plus text-white fs-2"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-2">Añadir Ejercicio</h5>
+            <p class="text-muted small mb-0">Agrega un nuevo ejercicio a tu rutina</p>
+          </div>
+
+          <form action="{{ route('routine_exercises.attach', $routine) }}" method="POST">
+            @csrf
+            <div class="mb-3">
+              <label class="form-label small fw-medium text-muted">EJERCICIO</label>
+              <select name="exercise_id" class="form-select border-0 bg-white"
+                style="border-radius: 8px;" required>
+                <option value="" disabled selected>Selecciona un ejercicio</option>
+                @foreach($availableExercises as $exercise)
+                <option value="{{ $exercise->id }}">{{ $exercise->title }}</option>
+                @endforeach
+              </select>
+            </div>
+
+            <div class="row g-2 mb-3">
+              <div class="col-4">
+                <label class="form-label small fw-medium text-muted">REPS</label>
+                <input type="number" name="reps" class="form-control form-control-sm border-0 bg-white"
+                  style="border-radius: 8px;" placeholder="0">
+              </div>
+              <div class="col-4">
+                <label class="form-label small fw-medium text-muted">DURACIÓN</label>
+                <input type="number" name="duration" class="form-control form-control-sm border-0 bg-white"
+                  style="border-radius: 8px;" placeholder="0">
+              </div>
+              <div class="col-4">
+                <label class="form-label small fw-medium text-muted">DESCANSO</label>
+                <input type="number" name="rest_time" class="form-control form-control-sm border-0 bg-white"
+                  style="border-radius: 8px;" placeholder="0">
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100" style="border-radius: 8px;">
+              <i class="fas fa-plus me-2"></i>Añadir a la rutina
+            </button>
+          </form>
+
+          <div class="text-center mt-3">
+            <button class="btn btn-link text-muted small p-0" disabled>
+              <i class="fas fa-magic me-1"></i>o crear uno nuevo
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+<style>
+  .card:hover {
+    transform: translateY(-2px);
+  }
+
+  .form-control:focus,
+  .form-select:focus {
+    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+    border-color: var(--bs-primary);
+  }
+
+  .btn {
+    transition: all 0.2s ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+</style>
 @endsection

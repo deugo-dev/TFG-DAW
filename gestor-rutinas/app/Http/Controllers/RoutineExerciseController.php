@@ -2,69 +2,66 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Routine;
 use App\Models\Exercise;
-use Illuminate\Http\Request;
 
 class RoutineExerciseController extends Controller
 {
-    public function store(Request $request, Routine $routine)
+    public function attach(Request $request, Routine $routine)
     {
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'video_url' => 'nullable|url',
-            'category' => 'nullable|string|max:255',
-            'difficulty_level' => 'required|string|in:fácil,medio,difícil',
-            'exercise_order' => 'nullable|integer|min:1',
+        $validated = $request->validate([
+            'exercise_id' => 'required|exists:exercises,id',
             'reps' => 'nullable|integer|min:0',
             'duration' => 'nullable|integer|min:0',
             'rest_time' => 'nullable|integer|min:0',
         ]);
 
-        $exercise = Exercise::create([
-            'title' => $data['title'],
-            'description' => $data['description'] ?? null,
-            'video_url' => $data['video_url'] ?? null,
-            'category' => $data['category'] ?? null,
-            'difficulty_level' => $data['difficulty_level'] ?? null,
-            'user_id' => auth()->id(),
+        // Obtener el siguiente orden
+        $nextOrder = $routine->exercises()->max('exercise_order') + 1 ?? 1;
+
+        $routine->exercises()->attach($validated['exercise_id'], [
+            'exercise_order' => $nextOrder,
+            'reps' => $validated['reps'],
+            'duration' => $validated['duration'],
+            'rest_time' => $validated['rest_time'],
         ]);
 
-        $routine->exercises()->attach($exercise->id, [
-            'exercise_order' => $data['exercise_order'] ?? ($routine->exercises()->count() + 1),
-            'reps' => $data['reps'] ?? null,
-            'duration' => $data['duration'] ?? null,
-            'rest_time' => $data['rest_time'] ?? null,
-        ]);
-
-        return redirect()->route('routines.show', $routine->id)->with('success', 'Ejercicio añadido correctamente.');
+        return redirect()->back()->with('success', 'Ejercicio añadido a la rutina.');
     }
 
 
     public function update(Request $request, Routine $routine, Exercise $exercise)
     {
-        $data = $request->validate([
-            'exercise_order' => 'nullable|integer',
-            'reps' => 'nullable|integer',
-            'duration' => 'nullable|integer',
-            'rest_time' => 'nullable|integer',
+        $validated = $request->validate([
+            'exercise_order' => 'nullable|integer|min:1',
+            'reps' => 'nullable|integer|min:1',
+            'duration' => 'nullable|integer|min:1',
+            'rest_time' => 'nullable|integer|min:0',
         ]);
 
-        $routine->exercises()->updateExistingPivot($exercise->id, [
-            'exercise_order' => $data['exercise_order'] ?? 1,
-            'reps' => $data['reps'] ?? null,
-            'duration' => $data['duration'] ?? null,
-            'rest_time' => $data['rest_time'] ?? null,
-        ]);
+        $routine->exercises()->updateExistingPivot($exercise->id, $validated);
 
-        return redirect()->route('routines.show', $routine->id)->with('success', 'Datos del ejercicio actualizados.');
+        return redirect()->route('routines.show', $routine)->with('success', 'Ejercicio actualizado correctamente');
     }
 
     public function delete(Routine $routine, Exercise $exercise)
     {
         $routine->exercises()->detach($exercise->id);
 
-        return redirect()->route('routines.show', $routine->id)->with('success', 'Ejercicio eliminado de la rutina.');
+        return redirect()->route('routines.show', $routine)->with('success', 'Ejercicio eliminado de la rutina');
+    }
+
+    public function reorder(Request $request, Routine $routine)
+    {
+        $order = $request->input('order');
+
+        foreach ($order as $index => $exerciseId) {
+            $routine->exercises()->updateExistingPivot($exerciseId, [
+                'exercise_order' => $index + 1,
+            ]);
+        }
+
+        return response()->json(['status' => 'ok']);
     }
 }
