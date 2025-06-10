@@ -12,9 +12,10 @@ class RoutineExerciseController extends Controller
     {
         $validated = $request->validate([
             'exercise_id' => 'required|exists:exercises,id',
-            'reps' => 'nullable|integer|min:0',
-            'duration' => 'nullable|integer|min:0',
-            'rest_time' => 'nullable|integer|min:0',
+            'reps' => 'nullable|integer|min:1',
+            'sets' => 'nullable|integer|min:1',
+            'duration' => 'nullable|integer|min:1',
+            'rest_time' => 'nullable|integer|min:1',
         ]);
 
         // Obtener el siguiente orden
@@ -23,6 +24,7 @@ class RoutineExerciseController extends Controller
         $routine->exercises()->attach($validated['exercise_id'], [
             'exercise_order' => $nextOrder,
             'reps' => $validated['reps'],
+            'sets' => $validated['sets'],
             'duration' => $validated['duration'],
             'rest_time' => $validated['rest_time'],
         ]);
@@ -36,6 +38,7 @@ class RoutineExerciseController extends Controller
         $validated = $request->validate([
             'exercise_order' => 'nullable|integer|min:1',
             'reps' => 'nullable|integer|min:1',
+            'sets' => 'nullable|integer|min:1',
             'duration' => 'nullable|integer|min:1',
             'rest_time' => 'nullable|integer|min:0',
         ]);

@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container py-4">
-  <!-- Header Section -->
   <div class="row mb-4">
     <div class="col">
       <div class="d-flex align-items-center mb-3">
@@ -17,11 +16,10 @@
     </div>
   </div>
 
-  <!-- Exercise Grid -->
   <div id="exercise-list" class="row g-4">
     @foreach($routine->exercises->sortBy('pivot.exercise_order') as $exercise)
     <div class="col-lg-6 col-xl-4" data-id="{{ $exercise->id }}">
-      <div class="card h-100 shadow-sm border-0" style="transition: transform 0.2s; border-radius: 12px;">
+      <div class="card h-100 shadow border-0" style="transition: transform 0.2s; border-radius: 12px;">
         <!-- Video Section -->
         <div class="position-relative" style="border-radius: 12px 12px 0 0; overflow: hidden;">
           <div class="ratio ratio-16x9">
@@ -39,7 +37,6 @@
             </div>
             @endif
           </div>
-          <!-- Exercise Order Badge -->
           <div class="position-absolute top-0 start-0 m-2">
             <span class="badge bg-primary fs-6">#{{ $loop->iteration }}</span>
           </div>
@@ -55,11 +52,18 @@
             @method('PUT')
             <div class="row g-2 mb-3">
               <div class="col-4">
+                <label class="form-label small fw-medium text-muted">SETS</label>
+                <input type="number" name="sets" value="{{ $exercise->pivot->sets }}"
+                  class="form-control form-control-sm border-0 bg-light"
+                  style="border-radius: 8px;">
+              </div>
+              <div class="col-4">
                 <label class="form-label small fw-medium text-muted">REPS</label>
                 <input type="number" name="reps" value="{{ $exercise->pivot->reps }}"
                   class="form-control form-control-sm border-0 bg-light"
                   style="border-radius: 8px;">
               </div>
+
               <div class="col-4">
                 <label class="form-label small fw-medium text-muted">DURACIÓN</label>
                 <input type="number" name="duration" value="{{ $exercise->pivot->duration }}"
@@ -74,7 +78,7 @@
               </div>
             </div>
 
-            <!-- Action Buttons -->
+
             <div class="d-flex gap-2">
               <button type="submit" class="btn btn-primary btn-sm flex-fill" style="border-radius: 8px;">
                 <i class="fas fa-save me-1"></i> Actualizar
@@ -82,7 +86,7 @@
             </div>
           </form>
 
-          <!-- Delete Form -->
+          <!-- Delete -->
           <form action="{{ route('routine_exercises.delete', [$routine, $exercise]) }}" method="POST">
             @csrf
             @method('DELETE')
@@ -97,7 +101,7 @@
     </div>
     @endforeach
 
-    <!-- Add New Exercise Card -->
+    <!-- New exercise -->
     <div class="col-lg-6 col-xl-4">
       <div class="card h-100 border-0 shadow-sm" style="border-radius: 12px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
         <div class="card-body d-flex flex-column justify-content-center p-4">
@@ -124,6 +128,11 @@
             </div>
 
             <div class="row g-2 mb-3">
+              <div class="col-4">
+                <label class="form-label small fw-medium text-muted">SETS</label>
+                <input type="number" name="sets" class="form-control form-control-sm border-0 bg-white"
+                  style="border-radius: 8px;" placeholder="0">
+              </div>
               <div class="col-4">
                 <label class="form-label small fw-medium text-muted">REPS</label>
                 <input type="number" name="reps" class="form-control form-control-sm border-0 bg-white"

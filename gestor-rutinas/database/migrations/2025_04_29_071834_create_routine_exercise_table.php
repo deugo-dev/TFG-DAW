@@ -16,8 +16,9 @@ return new class extends Migration
             $table->timestamps();
             $table->integer('exercise_order');
             $table->integer('reps')->nullable();
-            $table->string('duration');
-            $table->integer('rest_time');
+            $table->integer('sets')->nullable();
+            $table->string('duration')->nullable();
+            $table->integer('rest_time')->nullable();
             $table->foreignId('exercise_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('routine_id')->nullable()->constrained()->cascadeOnDelete();
         });

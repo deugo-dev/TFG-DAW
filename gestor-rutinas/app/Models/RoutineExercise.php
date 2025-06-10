@@ -9,6 +9,7 @@ class RoutineExercise extends Model
 {
     protected $fillable = [
         'exercise_order',
+        'sets',
         'reps',
         'duration',
         'rest_time',

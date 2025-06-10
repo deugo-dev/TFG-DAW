@@ -26,7 +26,7 @@ class Exercise extends Model
     public function routines()
     {
         return $this->belongsToMany(Routine::class, 'routine_exercise')
-            ->withPivot('exercise_order', 'reps', 'duration', 'rest_time')
+            ->withPivot('exercise_order', 'reps', 'sets', 'duration', 'rest_time')
             ->withTimestamps();
     }
 
