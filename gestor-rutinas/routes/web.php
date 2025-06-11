@@ -41,6 +41,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Rutas de ejercicios
     Route::post('/exercises/store', [ExerciseController::class, 'store'])->name('exercises.store');
+    Route::post('/exercises/json', [ExerciseController::class, 'storeJson'])->name('exercises.storeJson');
     Route::put('/exercises/{exercise}', [ExerciseController::class, 'update'])->name('exercises.update');
     Route::delete('/exercises/{exercise}', [ExerciseController::class, 'delete'])->name('exercises.delete');
     Route::get('/mis-ejercicios', [ExerciseController::class, 'showAll'])->name('exercises.showAll');

@@ -24,6 +24,28 @@ class ExerciseController extends Controller
         return back()->with('success', 'Ejercicio creado correctamente.');
     }
 
+    //Servicio necesario para la creacion del ejercicio en las rutinas
+    public function storeJson(Request $request)
+    {
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'video_url' => 'nullable|url',
+            'category' => 'nullable|string|max:255',
+            'difficulty_level' => 'required|string|in:fácil,medio,difícil',
+        ]);
+
+        $data['user_id'] = auth()->id();
+
+        $exercise = Exercise::create($data);
+
+        return response()->json([
+            'message' => 'Ejercicio creado correctamente.',
+            'exercise' => $exercise,
+        ], 201);
+    }
+
+
     public function update(Request $request, $id)
     {
         $exercise = Exercise::findOrFail($id);
