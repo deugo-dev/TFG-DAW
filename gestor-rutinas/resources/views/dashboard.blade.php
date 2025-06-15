@@ -48,9 +48,11 @@
                                     <h5 class="fw-bold mb-1 text-dark">{{ $routine->name }}</h5>
                                     <div class="d-flex align-items-center text-muted small">
                                         <i class="fas fa-dumbbell me-1"></i>
-                                        <span>{{ $routine->exercises->count() ?? 0 }} ejercicios</span>
+                                        @php $count = $routine->exercises->count(); @endphp
+                                        <span>{{ $count }} {{ Str::plural('ejercicio', $count) }}</span>
                                     </div>
                                 </div>
+
 
                                 <!-- Action Buttons -->
                                 <div class="d-flex gap-2">

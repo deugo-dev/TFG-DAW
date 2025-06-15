@@ -28,6 +28,48 @@
   </div>
   @endif
 
+  <form method="GET" action="{{ route('exercises.filter') }}" class="row g-3 mb-4">
+    <div class="col-md-5">
+      <select name="category" class="form-select">
+        <option value="">Todas las categorías</option>
+        @foreach(['cardio', 'fuerza', 'estiramiento', 'flexibilidad', 'movilidad', 'core', 'calistenia'] as $cat)
+        <option value="{{ $cat }}" {{ session('filter_category') == $cat ? 'selected' : '' }}>
+          {{ ucfirst($cat) }}
+        </option>
+        @endforeach
+      </select>
+    </div>
+
+    <div class="col-md-5">
+      <select name="difficulty_level" class="form-select">
+        <option value="">Todas las dificultades</option>
+        @foreach(['fácil', 'medio', 'difícil'] as $level)
+        <option value="{{ $level }}" {{ session('filter_difficulty') == $level ? 'selected' : '' }}>
+          {{ ucfirst($level) }}
+        </option>
+        @endforeach
+      </select>
+    </div>
+
+    <div class="col-md-2 d-flex gap-2">
+      <button type="submit" class="btn btn-success w-100">
+        <i class="fas fa-filter me-1"></i> Filtrar
+      </button>
+      <a href="{{ route('exercises.clearFilters') }}" class="btn btn-outline-secondary w-100">
+        <i class="fas fa-times-circle me-1"></i> Limpiar
+      </a>
+    </div>
+  </form>
+
+  @if (session('filter_category') || session('filter_difficulty'))
+  <div class="alert alert-info">
+    Mostrando ejercicios filtrados por:
+    @if (session('filter_category')) <strong>Categoría:</strong> {{ session('filter_category') }} @endif
+    @if (session('filter_difficulty')) <strong>Dificultad:</strong> {{ session('filter_difficulty') }} @endif
+  </div>
+  @endif
+
+
   <!-- Exercises Grid -->
   <div class="row g-4">
     @forelse ($exercises as $exercise)
@@ -159,10 +201,10 @@
           style="width: 120px; height: 120px;">
           <i class="fas fa-dumbbell text-muted fs-1"></i>
         </div>
-        <h4 class="text-muted mb-2">No tienes ejercicios aún</h4>
-        <p class="text-muted mb-4">Comienza añadiendo tu primer ejercicio a la biblioteca</p>
+        <h4 class="text-muted mb-2">No tienes ejercicios aún o no se han encontrado</h4>
+        <p class="text-muted mb-4">Continua añadiendo un ejercicio</p>
         <button type="button" class="btn btn-success px-4 py-2" data-bs-toggle="modal" data-bs-target="#addExerciseModal" style="border-radius: 12px;">
-          <i class="fas fa-plus me-2"></i>Añadir primer ejercicio
+          <i class="fas fa-plus me-2"></i>Añadir ejercicio
         </button>
       </div>
     </div>

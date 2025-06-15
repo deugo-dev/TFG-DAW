@@ -45,6 +45,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/exercises/{exercise}', [ExerciseController::class, 'update'])->name('exercises.update');
     Route::delete('/exercises/{exercise}', [ExerciseController::class, 'delete'])->name('exercises.delete');
     Route::get('/mis-ejercicios', [ExerciseController::class, 'showAll'])->name('exercises.showAll');
+    Route::get('/exercises/filter', [ExerciseController::class, 'filtrar'])->name('exercises.filter');
+    Route::get('/exercises/clear', [ExerciseController::class, 'limpiar'])->name('exercises.clearFilters');
 });
 
 require __DIR__ . '/auth.php';

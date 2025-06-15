@@ -14,6 +14,7 @@ class Exercise extends Model
         'description',
         'video_url',
         'category',
+        'difficulty_level',
         'is_template',
         'user_id',
     ];

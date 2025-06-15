@@ -73,7 +73,37 @@ class ExerciseController extends Controller
 
     public function showAll()
     {
-        $exercises = auth()->user()->exercises;
+        $user = auth()->user();
+
+        $exercises = $user->exercises();
+
+        if (session('filter_category')) {
+            $exercises->where('category', session('filter_category'));
+        }
+
+        if (session('filter_difficulty')) {
+            $exercises->where('difficulty_level', session('filter_difficulty'));
+        }
+
+        $exercises = $exercises->get();
+
         return view('exercises.show', compact('exercises'));
+    }
+
+
+    public function filtrar(Request $request)
+    {
+        session([
+            'filter_category' => $request->category,
+            'filter_difficulty' => $request->difficulty_level,
+        ]);
+
+        return back(); // Vuelve a 'exercises.show'
+    }
+
+    public function limpiar()
+    {
+        session()->forget(['filter_category', 'filter_difficulty']);
+        return back(); // Vuelve a 'exercises.show'
     }
 }

@@ -12,7 +12,7 @@
                 @auth
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
-                        Dashboard
+                        Mis rutinas
                     </a>
                 </li>
                 <li class="nav-item">
