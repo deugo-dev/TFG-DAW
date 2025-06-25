@@ -27,20 +27,40 @@
             <ul class="navbar-nav ms-auto">
                 @auth
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                    <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" id="userDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
+
+                        {{-- Foto de perfil --}}
+                        @if (Auth::user()->profile_picture)
+                        <img src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="Foto de perfil"
+                            class="rounded-circle" width="32" height="32">
+                        @else
+                        <img src="{{ asset('images/default-avatar.jpg') }}" alt="Avatar por defecto"
+                            class="rounded-circle" width="32" height="32">
+                        @endif
+
+                        {{-- Nombre de usuario --}}
                         {{ Auth::user()->name }}
+
+                        {{-- Badge de admin --}}
                         @if (Auth::user()->is_admin)
                         <span class="badge bg-danger ms-2">Admin</span>
                         @endif
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                         <li>
-                            <a class="dropdown-item" href="{{ route('profile.edit') }}">Perfil</a>
+                            <a class="dropdown-item {{ request()->routeIs('profile.edit') ? 'active' : '' }}" href="{{ route('profile.edit') }}">
+                                Perfil
+                            </a>
                         </li>
                         <li>
                             <a class="dropdown-item {{ request()->routeIs('exercises.showAll') ? 'active' : '' }}" href="{{ route('exercises.showAll') }}">
                                 Mis ejercicios
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+                                Mis rutinas
                             </a>
                         </li>
                         <li>
