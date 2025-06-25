@@ -1,12 +1,12 @@
-@extends('layouts.app')
+@extends('layouts.app', ['noFooter' => true])
 
 @section('content')
 @if(Auth::user()->is_admin)
-<div class="container mt-4" style="max-width: 600px;">
-    <h1 class="mb-4">Editar Usuario</h1>
+<div class="container py-5" style="max-width: 600px;">
+    <h1 class="mb-4 fw-bold text-success">Editar Usuario</h1>
 
     @if ($errors->any())
-    <div class="alert alert-danger rounded-3">
+    <div class="alert alert-danger rounded-3 shadow-sm">
         <ul class="mb-0">
             @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
@@ -15,7 +15,7 @@
     </div>
     @endif
 
-    <form action="{{ route('users.update', $user) }}" method="POST" novalidate>
+    <form action="{{ route('users.update', $user) }}" method="POST" novalidate class="border rounded p-4 shadow-sm bg-light">
         @csrf
         @method('PUT')
 
@@ -43,13 +43,9 @@
                 maxlength="255">
         </div>
 
-        <button type="submit" class="btn btn-success px-4">
-            Guardar Cambios
-        </button>
+        <button type="submit" class="btn btn-success px-4 w-100 mb-2">Guardar Cambios</button>
 
-        <a href="{{ route('users.index') }}" class="btn btn-link ms-3">
-            Volver a la lista
-        </a>
+        <a href="{{ route('users.index') }}" class="btn btn-link w-100 text-center">Volver a la lista</a>
     </form>
 </div>
 @else

@@ -1,26 +1,29 @@
-@extends('layouts.app')
+@extends('layouts.app', ['noFooter' => true])
 
 @section('content')
 <div class="container py-4">
   <!-- Header Section -->
   <div class="row mb-4">
     <div class="col">
-      <div class="d-flex align-items-center justify-content-between mb-3">
-        <div class="d-flex align-items-center">
-          <div class="bg-success rounded-circle p-3 me-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
-            <i class="fas fa-dumbbell text-white fs-4"></i>
+      <div class="p-4 rounded-4" style="background-color: #000000;">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <div class="d-flex align-items-center">
+            <div class="bg-success rounded-circle p-3 me-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+              <i class="fas fa-dumbbell text-white fs-4"></i>
+            </div>
+            <div>
+              <h1 class="mb-1 text-white fw-bold">Mis Ejercicios</h1>
+              <p class="text-white mb-0">{{ $exercises->count() }} ejercicios en tu biblioteca</p>
+            </div>
           </div>
-          <div>
-            <h1 class="mb-1 text-dark fw-bold">Mis Ejercicios</h1>
-            <p class="text-muted mb-0">{{ $exercises->count() }} ejercicios en tu biblioteca</p>
-          </div>
+          <button type="button" class="btn btn-success px-4 py-2" data-bs-toggle="modal" data-bs-target="#addExerciseModal" style="border-radius: 12px;">
+            <i class="fas fa-plus me-2"></i>Añadir ejercicio
+          </button>
         </div>
-        <button type="button" class="btn btn-success px-4 py-2" data-bs-toggle="modal" data-bs-target="#addExerciseModal" style="border-radius: 12px;">
-          <i class="fas fa-plus me-2"></i>Añadir ejercicio
-        </button>
       </div>
     </div>
   </div>
+
 
   @if(session('success'))
   <div class="alert alert-success border-0 shadow" style="border-radius: 12px;">
@@ -297,6 +300,23 @@
 
   .badge {
     font-weight: 500;
+  }
+
+
+  .btn-success,
+  .bg-success {
+    background-color: #76B4AA !important;
+    border-color: #76B4AA !important;
+  }
+
+  .btn-outline-primary {
+    border-color: #76B4AA !important;
+    color: #76B4AA !important;
+  }
+
+  .btn-outline-primary:hover {
+    background-color: #76B4AA !important;
+    color: white !important;
   }
 </style>
 @endsection

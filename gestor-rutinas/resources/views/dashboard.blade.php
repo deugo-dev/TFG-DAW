@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['noFooter' => true])
 
 @section('title', 'Dashboard')
 
