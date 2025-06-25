@@ -5,7 +5,7 @@
   <div class="row mb-4">
     <div class="col">
       <div class="d-flex align-items-center mb-3">
-        <div class="bg-primary rounded-circle p-3 me-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+        <div class="bg-primary rounded-circle p-3 me-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;  ">
           <i class="fas fa-dumbbell text-white fs-4"></i>
         </div>
         <div>
@@ -80,7 +80,7 @@
 
 
             <div class="d-flex gap-2">
-              <button type="submit" class="btn btn-primary btn-sm flex-fill" style="border-radius: 8px;">
+              <button type="submit" class="btn btn-primary btn-sm btn-no-hover flex-fill" style="border-radius: 8px;">
                 <i class="fas fa-save me-1"></i> Actualizar
               </button>
             </div>
@@ -117,7 +117,7 @@
           <li class="nav-item" role="presentation" style="flex: 1;">
             <button class="nav-link w-100" id="create-new-tab" data-bs-toggle="tab"
               data-bs-target="#create-new" type="button" role="tab"
-              style="border: none; border-radius: 0 12px 0 0; background: transparent; color: #6c757d; font-weight: 500; font-size: 0.9rem; padding: 12px;">
+              style="border: none; border-radius: 0 12px 0 0; background: transparent; color:rgb(0, 0, 0); font-weight: 500; font-size: 0.9rem; padding: 12px;">
               <i class="fas fa-plus me-1"></i>Crear Nuevo
             </button>
           </li>
@@ -130,7 +130,7 @@
           <div class="tab-pane fade show active" id="add-existing" role="tabpanel">
             <div class="card-body d-flex flex-column justify-content-center p-4" style="border: none; background: transparent;">
               <div class="text-center mb-4">
-                <div class="bg-success rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center"
+                <div class="bg-primary rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center"
                   style="width: 80px; height: 80px;">
                   <i class="fas fa-plus text-white fs-2"></i>
                 </div>
@@ -174,7 +174,7 @@
                   </div>
                 </div>
 
-                <button type="submit" class="btn btn-success w-100" style="border-radius: 8px;">
+                <button type="submit" class="btn btn-primary w-100" style="border-radius: 8px;">
                   <i class="fas fa-plus me-2"></i>Añadir a la rutina
                 </button>
               </form>
@@ -191,7 +191,7 @@
               <h5 class="fw-bold text-dark mb-2">Crear Ejercicio</h5>
               <p class="text-muted small mb-4">Crea un nuevo ejercicio personalizado</p>
 
-              <button type="button" class="btn btn-primary w-100" style="border-radius: 8px;" onclick="openExerciseModal()">
+              <button type="button" class="btn btn-primary btn-no-hover w-100" style="border-radius: 8px;" onclick="openExerciseModal()">
                 <i class="fas fa-magic me-2"></i>Crear nuevo ejercicio
               </button>
             </div>
@@ -293,7 +293,7 @@
               </div>
             </div>
             <div class="modal-footer border-0">
-              <button type="submit" class="btn btn-primary w-100" style="border-radius: 8px;">Añadir a la rutina</button>
+              <button type="submit" class="btn btn-primary btn-no-hover w-100" style="border-radius: 8px;">Añadir a la rutina</button>
             </div>
           </form>
         </div>
@@ -334,14 +334,37 @@
     </script>
 
     <style>
+      .bg-primary {
+        background-color: #76B4AA !important;
+      }
+
+      .text-muted {
+        color: #7C97A1 !important;
+      }
+
+      .text-dark {
+        color: #000000 !important;
+      }
+
+      .btn-primary {
+        background-color: #76B4AA;
+        color: #FFFFFF;
+        border: none;
+      }
+
+      .btn-outline {
+        border: 1px solid #7C97A1;
+        color: #7C97A1;
+      }
+
       .card:hover {
         transform: translateY(-2px);
       }
 
       .form-control:focus,
       .form-select:focus {
-        box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
-        border-color: var(--bs-primary);
+        box-shadow: 0 0 0 0.2rem rgba(118, 180, 170, 0.25);
+        border-color: #76B4AA;
       }
 
       .btn {
@@ -354,16 +377,53 @@
 
       .nav-tabs .nav-link {
         transition: all 0.2s ease;
+        background: rgba(118, 180, 170, 0.1) !important;
+        color: #76B4AA !important;
+        border: 1px solid rgba(118, 180, 170, 0.2) !important;
       }
 
       .nav-tabs .nav-link:hover {
-        background: rgba(25, 135, 84, 0.1);
-        color: #198754 !important;
+        background: rgba(118, 180, 170, 0.2) !important;
+        color: #76B4AA !important;
+        transform: translateY(-1px);
       }
 
       .nav-tabs .nav-link.active {
-        background: #198754 !important;
+        background: #76B4AA !important;
         color: white !important;
+        border: 1px solid #76B4AA !important;
+      }
+
+      #add-existing-tab {
+        background: rgba(118, 180, 170, 0.15) !important;
+        color: #000000 !important;
+        font-weight: 600 !important;
+      }
+
+      #add-existing-tab:hover {
+        background: rgba(118, 180, 170, 0.3) !important;
+        color: #000000 !important;
+      }
+
+      #create-new-tab {
+        background: rgba(118, 180, 170, 0.15) !important;
+        color: #000000 !important;
+        font-weight: 600 !important;
+      }
+
+      #create-new-tab:hover {
+        background: rgba(118, 180, 170, 0.3) !important;
+        color: #000000 !important;
+      }
+
+      .btn-no-hover {
+        background-color: #76B4AA !important;
+        border-color: #76B4AA !important;
+      }
+
+      .btn-no-hover:hover {
+        background-color: green !important;
+        border-color: green !important;
       }
     </style>
     @endsection

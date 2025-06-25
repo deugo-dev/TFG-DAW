@@ -35,8 +35,6 @@
         pointer-events: none;
     }
 
-
-
     .hero {
         min-height: 100vh;
         display: grid;
@@ -53,18 +51,24 @@
         position: relative;
     }
 
-    .hero-left img {
-        width: 400px;
-        max-width: 100%;
-        height: auto;
-        margin-bottom: 20px;
-        transition: transform 0.3s ease-in-out;
+    .hero-title {
+        font-size: clamp(2rem, 6vw, 4rem);
+        font-weight: 800;
+        margin-bottom: 1rem;
+        color: #ffffff;
+        text-align: left;
+        opacity: 0;
+        animation: slideUp 0.8s ease-out 0.3s forwards;
     }
 
-    .hero-left img:hover {
-        transform: scale(1.05);
+    .hero-subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        color: #ffffff;
+        text-align: left;
+        opacity: 0;
+        animation: slideUp 0.8s ease-out 0.5s forwards;
     }
-
 
     .hero-right {
         background: #FFFFFF;
@@ -85,28 +89,6 @@
         object-fit: cover;
         opacity: 0.70;
         z-index: 1;
-    }
-
-    .hero-title {
-        font-size: clamp(3rem, 8vw, 5rem);
-        font-weight: 900;
-        color: #FFFFFF;
-        margin-bottom: 1rem;
-        opacity: 0;
-        transform: translateY(30px);
-        animation: slideUp 0.8s ease-out 0.3s forwards;
-    }
-
-    .hero-subtitle {
-        font-size: 1.3rem;
-        color: #FFFFFF;
-        margin-bottom: 2.5rem;
-        opacity: 0.9;
-        max-width: 400px;
-        line-height: 1.6;
-        opacity: 0;
-        transform: translateY(20px);
-        animation: slideUp 0.8s ease-out 0.6s forwards;
     }
 
     .cta-button {
@@ -131,21 +113,6 @@
         transform: translateY(-2px);
         color: #FFFFFF;
         text-decoration: none;
-    }
-
-    .hero-right {
-        position: relative;
-        overflow: hidden;
-    }
-
-    .background-video {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: 0;
     }
 
     .hero-overlay-text {
@@ -190,25 +157,6 @@
         color: #FFFFFF;
     }
 
-
-
-    .circle-outer {
-        width: 300px;
-        height: 300px;
-        animation: rotate 20s linear infinite;
-    }
-
-    .circle-inner {
-        width: 150px;
-        height: 150px;
-        top: 75px;
-        left: 75px;
-        border-color: #76B4AA;
-        animation: rotate 15s linear infinite reverse;
-    }
-
-
-
     .accent-line {
         position: absolute;
         bottom: 0;
@@ -222,114 +170,6 @@
         padding: 5rem 2rem;
         background: #000000;
         color: #FFFFFF;
-    }
-
-    .exercise-types {
-        padding: 5rem 2rem;
-        background: #FFFFFF;
-        color: #000000;
-    }
-
-    .exercise-types-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        text-align: center;
-    }
-
-    .exercise-types-title {
-        font-size: clamp(2rem, 4vw, 3rem);
-        margin-bottom: 1rem;
-        font-weight: 700;
-        color: #000000;
-    }
-
-    .exercise-types-subtitle {
-        font-size: 1.2rem;
-        color: #666;
-        margin-bottom: 4rem;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .exercise-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 2rem;
-        margin-top: 3rem;
-    }
-
-    .exercise-item {
-        background: #000000;
-        color: #FFFFFF;
-        padding: 2rem 1.5rem;
-        border-radius: 12px;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .exercise-item::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 4px;
-        height: 100%;
-        background: #76B4AA;
-        transition: width 0.3s ease;
-    }
-
-    .exercise-item:nth-child(2)::before {
-        background: #7C97A1;
-    }
-
-    .exercise-item:nth-child(3)::before {
-        background: #653F41;
-    }
-
-    .exercise-item:nth-child(4)::before {
-        background: #76B4AA;
-    }
-
-    .exercise-item:nth-child(5)::before {
-        background: #7C97A1;
-    }
-
-    .exercise-item:nth-child(6)::before {
-        background: #653F41;
-    }
-
-    .exercise-item:nth-child(7)::before {
-        background: #76B4AA;
-    }
-
-    .exercise-item:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    }
-
-    .exercise-item:hover::before {
-        width: 8px;
-    }
-
-    .exercise-icon {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-        display: block;
-    }
-
-    .exercise-name {
-        font-size: 1.3rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-        text-transform: capitalize;
-    }
-
-    .exercise-description {
-        font-size: 0.95rem;
-        color: #ccc;
-        line-height: 1.5;
     }
 
     .features-container {
@@ -383,6 +223,78 @@
         color: #666;
     }
 
+    .exercise-types {
+        padding: 5rem 2rem;
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        url('{{ asset("images/gym-background.jpg") }}');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: #FFFFFF;
+    }
+
+    .exercise-types-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .exercise-types-title {
+        font-size: clamp(2rem, 4vw, 3rem);
+        margin-bottom: 1rem;
+        font-weight: 700;
+        color: #FFFFFF;
+    }
+
+    .exercise-types-subtitle {
+        font-size: 1.2rem;
+        color: #FFFFFF;
+        margin-bottom: 4rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        opacity: 0.9;
+    }
+
+    .exercise-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    .exercise-item {
+        background: rgba(255, 255, 255, 0.95);
+        color: #000000;
+        padding: 2rem 1.5rem;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .exercise-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        background: rgba(255, 255, 255, 1);
+    }
+
+    .exercise-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-transform: capitalize;
+        color: #000000;
+    }
+
+    .exercise-description {
+        font-size: 1rem;
+        color: #333;
+        line-height: 1.6;
+    }
+
     @keyframes slideUp {
         to {
             opacity: 1;
@@ -393,16 +305,6 @@
     @keyframes fadeIn {
         to {
             opacity: 1;
-        }
-    }
-
-    @keyframes rotate {
-        from {
-            transform: rotate(0deg);
-        }
-
-        to {
-            transform: rotate(360deg);
         }
     }
 
@@ -417,6 +319,9 @@
             text-align: center;
         }
 
+        .exercise-types {
+            background-attachment: scroll;
+        }
     }
 </style>
 
@@ -426,16 +331,17 @@
     </div>
 </div>
 
-
 <section class="hero">
     <div class="hero-left">
-        <img src="{{asset('images/logo.png') }}" alt="Logo" class="">
+        <h2 class="hero-title">Tu entrenamiento, a tu manera</h2>
         <p class="hero-subtitle">Tu plataforma personalizada para crear y gestionar rutinas de entrenamiento</p>
+
         @auth
         <a href="{{ route('dashboard') }}" class="cta-button">Ir a mi panel</a>
         @else
         <a href="{{ route('login') }}" class="cta-button">Iniciar sesión</a>
         @endauth
+
         <div class="accent-line"></div>
     </div>
 
@@ -453,57 +359,6 @@
     </div>
 </section>
 
-<section class="exercise-types">
-    <div class="exercise-types-container">
-        <h2 class="exercise-types-title">Tipos de Ejercicios</h2>
-        <p class="exercise-types-subtitle">Configura y personaliza diferentes modalidades de entrenamiento según tus objetivos y preferencias</p>
-
-        <div class="exercise-grid">
-            <div class="exercise-item">
-                <span class="exercise-icon">💪</span>
-                <h3 class="exercise-name">Fuerza</h3>
-                <p class="exercise-description">Desarrolla músculo y potencia con entrenamientos de resistencia y pesas</p>
-            </div>
-
-            <div class="exercise-item">
-                <span class="exercise-icon">🧘</span>
-                <h3 class="exercise-name">Estiramiento</h3>
-                <p class="exercise-description">Mejora tu flexibilidad y reduce tensiones musculares</p>
-            </div>
-
-            <div class="exercise-item">
-                <span class="exercise-icon">🏃</span>
-                <h3 class="exercise-name">Cardio</h3>
-                <p class="exercise-description">Fortalece tu sistema cardiovascular y quema calorías</p>
-            </div>
-
-            <div class="exercise-item">
-                <span class="exercise-icon">🤸</span>
-                <h3 class="exercise-name">Flexibilidad</h3>
-                <p class="exercise-description">Aumenta tu rango de movimiento y previene lesiones</p>
-            </div>
-
-            <div class="exercise-item">
-                <span class="exercise-icon">🔄</span>
-                <h3 class="exercise-name">Movilidad</h3>
-                <p class="exercise-description">Optimiza el movimiento funcional de tus articulaciones</p>
-            </div>
-
-            <div class="exercise-item">
-                <span class="exercise-icon">⚡</span>
-                <h3 class="exercise-name">Core</h3>
-                <p class="exercise-description">Fortalece tu centro y mejora la estabilidad corporal</p>
-            </div>
-
-            <div class="exercise-item">
-                <span class="exercise-icon">🏋️</span>
-                <h3 class="exercise-name">Calistenia</h3>
-                <p class="exercise-description">Entrena con el peso de tu propio cuerpo</p>
-            </div>
-        </div>
-    </div>
-</section>
-
 <section class="features">
     <div class="features-container">
         <h2 class="features-title">Transforma tu entrenamiento</h2>
@@ -511,17 +366,52 @@
         <div class="features-grid">
             <div class="feature-card">
                 <h3 class="feature-title">Rutinas Personalizadas</h3>
-                <p class="feature-description">Crea rutinas adaptadas a tus objetivos, nivel de fitness y disponibilidad de tiempo.</p>
+                <p class="feature-description">Crea rutinas adaptadas a tus objetivos, nivel de fitness y necesidades.</p>
             </div>
 
-            <div class="feature-card">
-                <h3 class="feature-title">Seguimiento Avanzado</h3>
-                <p class="feature-description">Monitorea tu progreso con estadísticas detalladas y análisis de tu evolución.</p>
+        </div>
+    </div>
+</section>
+
+<section class="exercise-types">
+    <div class="exercise-types-container">
+        <h2 class="exercise-types-title">Tipos de Ejercicios</h2>
+        <p class="exercise-types-subtitle">Configura y personaliza diferentes modalidades de entrenamiento según tus objetivos y preferencias</p>
+
+        <div class="exercise-grid">
+            <div class="exercise-item">
+                <h3 class="exercise-name">Fuerza</h3>
+                <p class="exercise-description">Desarrolla músculo y potencia con entrenamientos de resistencia y pesas</p>
             </div>
 
-            <div class="feature-card">
-                <h3 class="feature-title">Motivación Constante</h3>
-                <p class="feature-description">Sistema de logros y recordatorios para mantenerte motivado cada día.</p>
+            <div class="exercise-item">
+                <h3 class="exercise-name">Estiramiento</h3>
+                <p class="exercise-description">Mejora tu flexibilidad y reduce tensiones musculares</p>
+            </div>
+
+            <div class="exercise-item">
+                <h3 class="exercise-name">Cardio</h3>
+                <p class="exercise-description">Fortalece tu sistema cardiovascular y quema calorías</p>
+            </div>
+
+            <div class="exercise-item">
+                <h3 class="exercise-name">Flexibilidad</h3>
+                <p class="exercise-description">Aumenta tu rango de movimiento y previene lesiones</p>
+            </div>
+
+            <div class="exercise-item">
+                <h3 class="exercise-name">Movilidad</h3>
+                <p class="exercise-description">Optimiza el movimiento funcional de tus articulaciones</p>
+            </div>
+
+            <div class="exercise-item">
+                <h3 class="exercise-name">Core</h3>
+                <p class="exercise-description">Fortalece tu centro y mejora la estabilidad corporal</p>
+            </div>
+
+            <div class="exercise-item">
+                <h3 class="exercise-name">Calistenia</h3>
+                <p class="exercise-description">Entrena con el peso de tu propio cuerpo</p>
             </div>
         </div>
     </div>
