@@ -6,12 +6,27 @@ use App\Http\Controllers\RoutineController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RoutineExerciseController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\StatisticsController;
+
+
+
 
 Route::get('/', function () {
     return view('index');
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    //Gestion de usuarios  
+
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+
+    //Estadisticas
+    Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
+
     // Dashboard y perfil
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 

@@ -20,7 +20,23 @@
                         Mis ejercicios
                     </a>
                 </li>
+
+                @if(Auth::user()->is_admin)
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('users.index') ? 'active' : '' }}" href="{{ route('users.index') }}">
+                        Usuarios
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('statistics.index') ? 'active' : '' }}" href="{{ route('statistics.index') }}">
+                        Estadísticas
+                    </a>
+                </li>
+                @endif
+
+
                 @endauth
+
 
             </ul>
 
@@ -63,12 +79,26 @@
                                 Mis rutinas
                             </a>
                         </li>
+                        @if(Auth::user()->is_admin)
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('users.index') ? 'active' : '' }}" href="{{ route('users.index') }}">
+                                Usuarios
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('statistics.index') ? 'active' : '' }}" href="{{ route('statistics.index') }}">
+                                Estadísticas
+                            </a>
+                        </li>
+                        @endif
+
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="dropdown-item">Cerrar sesión</button>
                             </form>
                         </li>
+
                     </ul>
                 </li>
                 @endauth
